@@ -31,7 +31,7 @@ function Login() {
         }
         console.log(res.status);
       }).catch(err => {
-        toast.error("Error")
+        toast.error("User Not Found")
         console.error(err);
       })
   }
@@ -39,7 +39,7 @@ function Login() {
     <div className='relative flex items-center justify-center top-24 container mx-auto'>
       <div className='w-[500px] h-[530px] border px-20'>
         <div className='flex justify-center items-center py-5'>
-          <h1 className='text-3xl text-white'>Register</h1>
+          <h1 className='text-3xl text-white'>Login</h1>
         </div>
         <div className='flex flex-col gap-3'>
           <div>
