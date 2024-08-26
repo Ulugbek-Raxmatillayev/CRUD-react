@@ -1,8 +1,8 @@
 import axios from 'axios'
 import React, { useRef, useState } from 'react'
-import { link } from '../components/link'
 import { toast, ToastContainer } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { apiUrl } from '../../helpers/url'
 
 function Register() {
   const [add, setAdd] = useState([])
@@ -25,7 +25,7 @@ function Register() {
       "password": password.current.value,
       "prePassword": prePassword.current.value
     }
-    axios.post(link + 'auth/register', user)
+    axios.post(apiUrl + 'auth/register', user)
       .then(res => {
         console.log(res);
         setAdd(res.config.data)

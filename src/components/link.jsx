@@ -1,1 +1,0 @@
-export const link = 'http://161.35.214.247:8081/'

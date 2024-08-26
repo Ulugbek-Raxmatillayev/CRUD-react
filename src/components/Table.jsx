@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios';
-import { link } from './link';
+import { apiUrl } from './apiUrl';
+import { config } from '../helpers/token';
 
 function Table() {
   const [isInfo, setIsInfo] = useState(false)
@@ -20,13 +21,15 @@ function Table() {
 
   const addItem = () => {
     const newData = {
+      "id": getProducts.length + 1,
       "name": name.current.value,
       "description": desc.current.value,
-      "categoryId": category.current.value,
-      "price": price.current.value
+      "categoryId": +(category.current.value),
+      "price": +(price.current.value),
+      config
     }
 
-    axios.post(link + 'product/save', newData)
+    axios.post(apiUrl + 'product/save', newData)
       .then(res => {
         setGetProducts(res.data.body)
         toast.success("success added ")
@@ -43,7 +46,7 @@ function Table() {
   }
 
   const deleteItem = () => {
-    axios.delete(link + `product/{id}?id=${selectedItem[0].id}`)
+    axios.delete(apiUrl + `product/{id}?id=${selectedItem[0].id}`)
       .then(res => {
         setGetProducts(res.data.body)
         toast.success('Successfully')
@@ -63,9 +66,9 @@ function Table() {
       "price": price.current.value
     }
 
-    axios.put(link + `product/update/${selectedItem[0].id}`, editData)
+    axios.put(apiUrl + `product/update/${selectedItem[0].id}`, editData)
       .then(res => {
-        setGetProducts(res.data.body)
+        console.log(res)
         toast.success('succes')
         console.log(res);
       }).catch(err => {
@@ -114,7 +117,7 @@ function Table() {
 
   useEffect(() => {
 
-    axios.get(`${link}category/list`)
+    axios.get(`${apiUrl}category/list`)
       .then(res => {
         setGetCategory(res.data.body);
         console.log(res);
@@ -124,12 +127,12 @@ function Table() {
 
   useEffect(() => {
 
-    axios.get(`${link}product/list`)
+    axios.get(`${apiUrl}product/list`)
       .then(res => {
         setGetProducts(res.data.body)
       }).catch(err => { console.error(err); })
 
-  }, [getProducts])
+  }, [])
 
   const handleCategoryClick = (categoryId) => {
     setSelectedCategory(categoryId);
@@ -269,7 +272,7 @@ function Table() {
                   </div>
                   <div class="col-span-2">
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-                    <input ref={price} type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" />
+                    <input ref={price} type="number" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" />
                   </div>
 
                 </div>
